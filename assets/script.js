@@ -84,7 +84,7 @@ function fetchForecast(lat, lon) {
 
                 // Create a container for each day's forecast
                 const dayForecast = document.createElement('div');
-                dayForecast.classList.add('forecast-item'); // You can define a CSS class for styling
+                dayForecast.classList.add('forecast-item'); 
 
                 // Update the dayForecast element with forecast information
                 dayForecast.innerHTML = `
