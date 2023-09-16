@@ -1,66 +1,70 @@
-/* Reset some default styles */
-body, h1, p, ul, form {
+/* Reset default margin and padding for all elements */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-/* Set a background color for the body */
+/* Set a colorful background gradient for the body */
 body {
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #FFC107, #FF5722); /* Gradient from yellow to red */
     font-family: Arial, sans-serif;
 }
 
-/* Style the header */
+/* Style the header with a transparent background */
 header {
-    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.4);
     color: #fff;
     text-align: center;
     padding: 20px;
 }
 
-h1 {
-    font-size: 28px;
+/* Style the header h1 with a colorful text shadow */
+header h1 {
+    font-size: 36px;
     margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Colorful text shadow */
 }
 
-/* Style the search form */
+/* Style the search form container */
 #search-form {
     text-align: center;
+    margin-bottom: 20px;
 }
 
+/* Style the city input field with a colorful border */
 #city-input {
     padding: 10px;
-    width: 200px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 300px;
+    font-size: 18px;
+    border: 2px solid #FFC107; /* Yellow border */
+    border-radius: 5px 0 0 5px;
 }
 
-#city-input::placeholder {
-    color: #999;
-}
-
-button {
+/* Style the search button with colorful background and border */
+#search-form button {
     padding: 10px 20px;
-    font-size: 16px;
-    background-color: #333;
+    font-size: 18px;
+    background-color: #FF5722; /* Red background */
     color: #fff;
-    border: none;
-    border-radius: 5px;
+    border: 2px solid #FFC107; /* Yellow border */
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #555;
+/* Style the search button hover state with a different background color */
+#search-form button:hover {
+    background-color: #FF9800; /* Orange hover background */
 }
 
-/* Style the main content */
+/* Style the main content container with a semi-transparent white background */
 main {
     max-width: 800px;
-    margin: 20px auto;
+    margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -69,49 +73,57 @@ main {
     margin-top: 20px;
 }
 
+/* Style each item in the search history with a colorful background */
 #search-history li {
     list-style-type: none;
     cursor: pointer;
-    padding: 5px 0;
-    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    background-color: rgba(255, 255, 0, 0.2); /* Yellowish background */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
 }
 
-#search-history li:last-child {
-    border-bottom: none;
-}
-
+/* Style the search history item hover state with a different background color */
 #search-history li:hover {
-    background-color: #f5f5f5;
+    background-color: rgba(255, 165, 0, 0.3); /* Orange hover background */
 }
 
 /* Style the current weather and forecast sections */
 #current-weather, #forecast {
     margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-/* Style the current weather */
-#current-weather h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-#current-weather p {
-    font-size: 16px;
-    margin-bottom: 8px;
-}
-
-/* Style the forecast section */
-#forecast h3 {
-    font-size: 20px;
-    margin-bottom: 8px;
-}
-
+/* Style the forecast items with colorful background */
 .forecast-item {
-    background-color: #f5f5f5;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 69, 0, 0.1); /* Reddish background */
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    width: calc(50% - 20px); /* Two columns, with margin between them */
 }
 
-/* Add more CSS rules here to style your weather data as needed */
+/* Style the weather icon */
+.forecast-item img {
+    max-width: 50px;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+/* Style the temperature, humidity, and wind speed */
+.forecast-item p {
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Media query for responsiveness */
+@media (max-width: 600px) {
+    /* Display forecast items in a single column on small screens */
+    .forecast-item {
+        width: 100%;
+    }
+}
