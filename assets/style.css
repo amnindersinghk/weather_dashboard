@@ -1,4 +1,4 @@
-
+/* Reset some default styles */
 body, h1, p, ul, form {
     margin: 0;
     padding: 0;
@@ -73,6 +73,11 @@ main {
     list-style-type: none;
     cursor: pointer;
     padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+#search-history li:last-child {
+    border-bottom: none;
 }
 
 #search-history li:hover {
@@ -84,11 +89,29 @@ main {
     margin-top: 20px;
 }
 
-/* CSS for forecast items */
-.forecast-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 5px;
-    background-color: #f5f5f5;
+/* Style the current weather */
+#current-weather h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
+#current-weather p {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Style the forecast section */
+#forecast h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.forecast-item {
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Add more CSS rules here to style your weather data as needed */
