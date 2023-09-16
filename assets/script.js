@@ -19,17 +19,17 @@ function fetchCurrentWeather(city) {
         .then((data) => {
             // Process the data and display it in the "current-weather" section
             const cityName = data.name;
-            const temperature = data.main.temp;
+            const temperatureCelsius = data.main.temp;
+            const temperatureFahrenheit = (temperatureCelsius * 9/5) + 32; // Convert to Fahrenheit
             const humidity = data.main.humidity;
             const windSpeed = data.wind.speed;
 
             // Update the "current-weather" section with the data
             currentWeather.innerHTML = `
                 <h2>${cityName}</h2>
-                <p>Temperature: ${temperature}°C</p>
+                <p>Temperature: ${temperatureFahrenheit}°F (${temperatureCelsius}°C)</p>
                 <p>Humidity: ${humidity}%</p>
                 <p>Wind Speed: ${windSpeed} m/s</p>
-                <!-- Add more elements as needed -->
             `;
 
             // Call the fetchForecast function with latitude and longitude
@@ -55,11 +55,32 @@ function fetchForecast(lat, lon) {
             // Process the data and display it in the "forecast" section
             forecast.innerHTML = ''; // Clear previous forecast data
 
-            // Loop through the forecast data and create elements for each day's forecast
-            data.list.forEach((item) => {
-                const date = new Date(item.dt * 1000); // Convert timestamp to date
-                const temperature = item.main.temp;
-                const weatherDescription = item.weather[0].description;
+            const forecastData = data.list; // Get the complete forecast data
+
+            // Create an object to group forecast data by date
+            const groupedData = {};
+
+            // Loop through the forecast data and group it by date
+            forecastData.forEach((item) => {
+                const date = new Date(item.dt * 1000);
+                const dateString = date.toDateString();
+
+                if (!groupedData[dateString]) {
+                    groupedData[dateString] = [];
+                }
+
+                groupedData[dateString].push(item);
+            });
+
+            // Loop through the grouped data and create elements for each day's forecast
+            for (const dateString in groupedData) {
+                const dateData = groupedData[dateString];
+                const date = new Date(dateData[0].dt * 1000).toDateString();
+                const temperatureCelsius = dateData[0].main.temp;
+                const temperatureFahrenheit = (temperatureCelsius * 9/5) + 32; // Convert to Fahrenheit
+                const humidity = dateData[0].main.humidity;
+                const windSpeed = dateData[0].wind.speed;
+                const weatherIcon = dateData[0].weather[0].icon;
 
                 // Create a container for each day's forecast
                 const dayForecast = document.createElement('div');
@@ -67,14 +88,16 @@ function fetchForecast(lat, lon) {
 
                 // Update the dayForecast element with forecast information
                 dayForecast.innerHTML = `
-                    <h3>${date.toDateString()}</h3>
-                    <p>Temperature: ${temperature}°C</p>
-                    <p>Description: ${weatherDescription}</p>
+                    <h3>${date}</h3>
+                    <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
+                    <p>Temperature: ${temperatureFahrenheit}°F (${temperatureCelsius}°C)</p>
+                    <p>Humidity: ${humidity}%</p>
+                    <p>Wind Speed: ${windSpeed} m/s</p>
                 `;
 
                 // Append the dayForecast to the "forecast" section
                 forecast.appendChild(dayForecast);
-            });
+            }
         })
         .catch((error) => {
             console.error('Error fetching forecast:', error);
