@@ -5,25 +5,24 @@
     box-sizing: border-box;
 }
 
-/* Set a colorful background gradient for the body */
+/* Set a background color for the body */
 body {
-    background: linear-gradient(135deg, #FFC107, #FF5722); /* Gradient from yellow to red */
+    background-color: #f2f2f2; /* Soft gray background */
     font-family: Arial, sans-serif;
 }
 
-/* Style the header with a transparent background */
+/* Style the header */
 header {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: #333;
     color: #fff;
     text-align: center;
     padding: 20px;
 }
 
-/* Style the header h1 with a colorful text shadow */
+/* Style the header h1 */
 header h1 {
     font-size: 36px;
     margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Colorful text shadow */
 }
 
 /* Style the search form container */
@@ -32,38 +31,38 @@ header h1 {
     margin-bottom: 20px;
 }
 
-/* Style the city input field with a colorful border */
+/* Style the city input field */
 #city-input {
     padding: 10px;
     width: 300px;
     font-size: 18px;
-    border: 2px solid #FFC107; /* Yellow border */
+    border: 2px solid #ccc; /* Light gray border */
     border-radius: 5px 0 0 5px;
 }
 
-/* Style the search button with colorful background and border */
+/* Style the search button */
 #search-form button {
     padding: 10px 20px;
     font-size: 18px;
-    background-color: #FF5722; /* Red background */
+    background-color: #333;
     color: #fff;
-    border: 2px solid #FFC107; /* Yellow border */
+    border: 2px solid #ccc; /* Light gray border */
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-/* Style the search button hover state with a different background color */
+/* Style the search button hover state */
 #search-form button:hover {
-    background-color: #FF9800; /* Orange hover background */
+    background-color: #555;
 }
 
-/* Style the main content container with a semi-transparent white background */
+/* Style the main content container */
 main {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #fff; /* White background */
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
@@ -73,20 +72,20 @@ main {
     margin-top: 20px;
 }
 
-/* Style each item in the search history with a colorful background */
+/* Style each item in the search history */
 #search-history li {
     list-style-type: none;
     cursor: pointer;
     padding: 10px;
-    background-color: rgba(255, 255, 0, 0.2); /* Yellowish background */
+    background-color: #f2f2f2; /* Light gray background */
     border-radius: 5px;
     margin-bottom: 10px;
     transition: background-color 0.3s ease;
 }
 
-/* Style the search history item hover state with a different background color */
+/* Style the search history item hover state */
 #search-history li:hover {
-    background-color: rgba(255, 165, 0, 0.3); /* Orange hover background */
+    background-color: #e0e0e0; /* Slightly darker gray on hover */
 }
 
 /* Style the current weather and forecast sections */
@@ -97,9 +96,9 @@ main {
     flex-wrap: wrap;
 }
 
-/* Style the forecast items with colorful background */
+/* Style the forecast items */
 .forecast-item {
-    background-color: rgba(255, 69, 0, 0.1); /* Reddish background */
+    background-color: #f2f2f2; /* Light gray background */
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
