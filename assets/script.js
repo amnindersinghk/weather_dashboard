@@ -34,6 +34,9 @@ function fetchCurrentWeather(city) {
 
             // Call the fetchForecast function with latitude and longitude
             fetchForecast(data.coord.lat, data.coord.lon);
+
+            // Store the searched city in local storage
+            storeCityInLocalStorage(city);
         })
         .catch((error) => {
             console.error('Error fetching current weather:', error);
@@ -57,46 +60,46 @@ function fetchForecast(lat, lon) {
 
             const forecastData = data.list; // Get the complete forecast data
 
-            // Create an object to group forecast data by date
+            // Create an object to group forecast data by day
             const groupedData = {};
 
-            // Loop through the forecast data and group it by date
+            // Loop through the forecast data and group it by day
             forecastData.forEach((item) => {
                 const date = new Date(item.dt * 1000);
                 const dateString = date.toDateString();
 
                 if (!groupedData[dateString]) {
-                    groupedData[dateString] = [];
+                    groupedData[dateString] = item;
                 }
-
-                groupedData[dateString].push(item);
             });
 
             // Loop through the grouped data and create elements for each day's forecast
             for (const dateString in groupedData) {
-                const dateData = groupedData[dateString];
-                const date = new Date(dateData[0].dt * 1000).toDateString();
-                const temperatureCelsius = dateData[0].main.temp;
+                const item = groupedData[dateString];
+                const date = new Date(item.dt * 1000);
+                const timeString = date.toLocaleTimeString();
+
+                const temperatureCelsius = item.main.temp;
                 const temperatureFahrenheit = (temperatureCelsius * 9/5) + 32; // Convert to Fahrenheit
-                const humidity = dateData[0].main.humidity;
-                const windSpeed = dateData[0].wind.speed;
-                const weatherIcon = dateData[0].weather[0].icon;
+                const humidity = item.main.humidity;
+                const windSpeed = item.wind.speed;
+                const weatherIcon = item.weather[0].icon;
 
-                // Create a container for each day's forecast
-                const dayForecast = document.createElement('div');
-                dayForecast.classList.add('forecast-item'); 
+                // Create a container for each forecast item
+                const forecastItem = document.createElement('div');
+                forecastItem.classList.add('forecast-item'); 
 
-                // Update the dayForecast element with forecast information
-                dayForecast.innerHTML = `
-                    <h3>${date}</h3>
+                // Update the forecastItem element with forecast information
+                forecastItem.innerHTML = `
+                    <h3>${dateString} - ${timeString}</h3>
                     <img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">
                     <p>Temperature: ${temperatureFahrenheit}°F (${temperatureCelsius}°C)</p>
                     <p>Humidity: ${humidity}%</p>
                     <p>Wind Speed: ${windSpeed} m/s</p>
                 `;
 
-                // Append the dayForecast to the "forecast" section
-                forecast.appendChild(dayForecast);
+                // Append the forecastItem to the "forecast" section
+                forecast.appendChild(forecastItem);
             }
         })
         .catch((error) => {
@@ -104,16 +107,41 @@ function fetchForecast(lat, lon) {
         });
 }
 
-// Function to update the search history
-function updateSearchHistory(city) {
-    // Create a list item and append it to the "search-history" section
-    const listItem = document.createElement('li');
-    listItem.textContent = city;
-    searchHistory.appendChild(listItem);
+// Function to store a city in local storage
+function storeCityInLocalStorage(city) {
+    // Check if local storage is available in the browser
+    if (typeof(Storage) !== "undefined") {
+        // Retrieve the existing search history from local storage (if any)
+        let searchHistoryList = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
-    // Add an event listener to the list item to allow clicking on a city in the history
-    listItem.addEventListener('click', () => {
-        fetchCurrentWeather(city);
+        // Add the new city to the search history
+        searchHistoryList.push(city);
+
+        // Save the updated search history back to local storage
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistoryList));
+
+        // Update the search history UI
+        updateSearchHistoryUI(searchHistoryList);
+    } else {
+        console.error('Local storage is not supported in this browser.');
+    }
+}
+
+// Function to update the search history UI
+function updateSearchHistoryUI(searchHistoryList) {
+    // Clear the existing search history UI
+    searchHistory.innerHTML = '';
+
+    // Populate the search history UI with the stored cities
+    searchHistoryList.forEach((city) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = city;
+        searchHistory.appendChild(listItem);
+
+        // Add an event listener to the list item to allow clicking on a city in the history
+        listItem.addEventListener('click', () => {
+            fetchCurrentWeather(city);
+        });
     });
 }
 
@@ -124,7 +152,30 @@ searchForm.addEventListener('submit', (e) => {
 
     if (city) {
         fetchCurrentWeather(city);
-        updateSearchHistory(city);
         cityInput.value = ''; // Clear the input field
     }
 });
+// Function to store a city in local storage
+function storeCityInLocalStorage(city) {
+    // Check if local storage is available in the browser
+    if (typeof(Storage) !== "undefined") {
+        // Retrieve the existing search history from local storage (if any)
+        let searchHistoryList = JSON.parse(localStorage.getItem('searchHistory')) || [];
+
+        // Add the new city to the search history
+        searchHistoryList.push(city);
+
+        // Ensure that the search history contains at most 5 items
+        if (searchHistoryList.length > 5) {
+            searchHistoryList.shift(); // Remove the oldest search
+        }
+
+        // Save the updated search history back to local storage
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistoryList));
+
+        // Update the search history UI
+        updateSearchHistoryUI(searchHistoryList);
+    } else {
+        console.error('Local storage is not supported in this browser.');
+    }
+}
